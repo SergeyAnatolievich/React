@@ -8,11 +8,10 @@ class AppComponent extends React.Component {
     constructor(props){
         super(props);
         this.state = {dolist: [
-            'погладить рубашку',
-            'погладить кошку',
-            'погладить пузико',
-            'погладить ковер'
-        ],
+            {isON: true, value: 'item', save: ''},
+            {isON: true, value: 'item', save: ''},
+            {isON: true, value: 'item', save: ''}
+            ],
         showInfo : false
         }
     }
@@ -27,6 +26,11 @@ class AppComponent extends React.Component {
         this.setState({
             showInfo:false
         })
+    }
+
+    _toggleShowRef(i) {
+        this.state.dolist[i].isON = false;
+        this.setState({dolist: this.state.dolist})
     }
 
 
@@ -53,19 +57,20 @@ class AppComponent extends React.Component {
                 <table className="table table-bordered">
                     <tbody>
                     <tr>{this.state.dolist.map((item, i) =>
-                        <td style={{float: 'left', width:'100%'}} key={i}> {item}
-                            <div id="savechanges" className="container">
+                        <td style={{float: 'left', width:'100%'}} key={i}>
+                            {item.isON
+                                ? <div id="item"> {item.value}
+                                <button type="button" className="btn btn-warning" onClick={this._toggleShowRef.bind(this, i)}>Редактировать</button>
+                                <button type="button" className="btn btn-danger">Удалить</button>
+                            </div>
+                                : <div>
                                 <div className="form-group, col-xs-3">
-                                <input className="form-control"  placeholder={item}></input>
+                                    <input className="form-control"/>
                                 </div>
                                 <button type="button" className="btn btn-success">Сохранить</button>
                                 <button type="button" className="btn btn-danger">Отмена</button>
-                            </div>
-                            {/*<button type="button" className="btn btn-warning">Редактировать</button>*/}
-                            {/*<button type="button" className="btn btn-danger">Удалить</button>*/}
+                            </div>}
                         </td>)}
-
-
                     </tr>
                     </tbody>
                 </table>
